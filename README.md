@@ -50,8 +50,8 @@ Estructura del fichero de configuración, "nginx.cnf":
                 access_log  /opt/nginx/logs/access.log;
                 error_log   /opt/nginx/logs/error.log;
 
-                ssl_certificate      /opt/nginx/pki/server.crt;
-                ssl_certificate_key  /opt/nginx/pki/server.key;
+                ssl_certificate      /opt/nginx/pki/nginx-server.crt;
+                ssl_certificate_key  /opt/nginx/pki/nginx-server.key;
 
                 ssl_session_cache    shared:SSL:1m;
                 ssl_session_timeout  5m;
