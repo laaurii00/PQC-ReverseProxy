@@ -1,4 +1,4 @@
-# PQC-ReverseProxy
+# PQC-Reverse Proxy
 
 Implementación Proxy inverso como Gateway de TLS para PQC.
 
@@ -21,11 +21,11 @@ Y, los algoritmos de firma digital de seguridad cuántica, a día 28/02/2025:
 La implementación del lado cliente se ha realizado mediante la imagen Docker curl realizada por OQS, obteniendo un programa cliente quantum-safe. 
 
 ## Pasos
-### 1.Instalación Docker Engine en Ubuntu
+### 1. Instalación Docker Engine en Ubuntu
     apt  install docker.io
-### 2.Instalación Nginx Server con PQC implementado con OQS
+### 2. Instalación Nginx Server con PQC implementado con OQS
     docker pull openquantumsafe/nginx
-### 3.Configuración del proxy inverso
+### 3. Configuración del proxy inverso
 Para la realización del servidor Nginx como proxy inverso, es necesario especificar la configuración mediante el fichero "nginx.conf", y a su vez especificar las claves PQC con las que se va a realizar la autenticación de la comunicación.
 Estructura del fichero de configuración, "nginx.cnf":
 
@@ -93,7 +93,7 @@ Los parámetros clave a tener en cuenta en dicha implementación son:
 * __Especificación del método KEM:__ En el apartado __ssl_ecdh_curve__ se debe especificar el método KEM mediante el cual se quiere establecer el handshake. Alguno de los métodos disponibles son: frodo976shake:frodo1344shake:p256_kyber512:kyber768:kyber1024:kyber512
 * __Location:__ En el apartado location junto a / se especifica la directiva para que Nginx maneje las solicitudes, es decir, cualquier expresión regular que coincida con la expresión especificada será procesada por nginx. Dicha solicitud será reenviada a la dirección y puertos especificada en __proxy_pas__. Dicha redirección se realizará mediante el protocolo SSL/TLS tradicional, cuyas claves estan especificadas en los parámetros __proxy_ssl_certificate__ y __proxy_ssl_certificate_key__. 
 
-### 4.Generación de claves PQC.
+### 4. Generación de claves PQC.
 Como se ha mencionado en el paso anterior, se debe generar dos tipos de claves: las claves PQC para autentificar la comunicación HTTPS quantum-safe con el exterior, y claves tradicionales para autentificar la comunicación con el servidor final.
 Se recomienda la generación de claves mediante linea de comandos "openssl", a modo de ejemplo:
 
@@ -103,10 +103,10 @@ Se recomienda la generación de claves mediante linea de comandos "openssl", a m
     openssl req -new -key nginx-server.key -out nginx-server-csr.pem -nodes -config $openssl_conf
     openssl x509 -req -in nginx-server-csr.pem -CA ca.crt -CAkey ca.key -CAcreateserial -out nginx-server.crt -days 365
 
-### 5.Instalación Curl con PQC implementado con OQS
+### 5. Instalación Curl con PQC implementado con OQS
     docker pull openquantumsafe/curl
 
-### 6.Establecimiento de la comunicación
+### 6. Establecimiento de la comunicación
 Se debe tener en cuenta que el certificado de autofirma implementado para la generación de claves PQC en el proxy inverso, debe estar disponible en la máquina virtual que vaya a trabajar como cliente.
 
 A su vez, como se ha mencionado, para poder configurar y trabajar de forma persistente con las especificaciones definidas en el dichero "nginx.cnf" se deben establecer volúmenes. Al arrancar el contenedor openquantumsafe/nginx y openquantumsafe/curl con la directiva __-v__ /ruta/en/host:/ruta/en/contenedor, se consigue montar el directorio específico del host dentro del contenedor.
