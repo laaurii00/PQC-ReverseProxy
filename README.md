@@ -86,12 +86,12 @@ Structure of the configuration file, "nginx.cnf":
             }
         }
 
-This configuration files allows the reverse proxy establishment, recive HTTPS requests with PQC certificates and redirecting these to the desired service using traditional HTTPS.
-The key parameters to take into account into the implemetation:
-* __Proxy's listening ports:__ You must specify the port on which the server will listen for incoming requests, to which the client using the curl command must communicate.
-* __Path to the PQC certificates:__ Into the section __ssl_certificate__ y __ssl_certificate_key__  has to be specified the exactly root where PQC certificates and keys are stored. If those certificates and keys are to be generated outside of the Docker image, recommended implementation, it should be generated a virtual link (with volume) that points: the local certificate's folder to the one that listen the Docker image "/opt/nginx/pki/".
-* __Especificación del método KEM:__ In the section __ssl_ecdh_curve__ must be specified the KEM algorithm (PQC) through which the handshake is to be established. Some of the available methods are: frodo976shake:frodo1344shake:p256_kyber512:kyber768:kyber1024:kyber512
-* __Location:__ In the section "location" alognside "/" it must be specified the address where Nginx shall handle requests, in other words, any regular expression that matches the specified expression will be processed by nginx. That request will be resended to the direction and ports specified into __proxy_pas__. That proxy pass will be made based on SSL/TLS traditional protocol, whose keys are specified as the parameters __proxy_ssl_certificate__ y __proxy_ssl_certificate_key__. 
+These configuration files set the reverse proxy setting, recive HTTPS requests with PQC certificates and redirecting these to the desired service using traditional HTTPS.
+The key parameters to take into account:
+* __Proxy's listening ports:__ Specify the port on which the server will listen for incoming requests, to which the client using the curl command must communicate.
+* __Path to the PQC certificates:__ The section __ssl_certificate__ and __ssl_certificate_key__  specify the exactly root where PQC certificates and keys shall be stored. If those certificates and keys are to be generated outside of the Docker image, recommended implementation, it should be generated a virtual link (Docker's volume) that points: the local certificate's folder to the one that listen the Docker image "/opt/nginx/pki/".
+* __Especificación del método KEM:__ The section __ssl_ecdh_curve__ shall be specified the KEM algorithm (PQC) through which the handshake is to be established. Some of the available methods are: frodo976shake:frodo1344shake:p256_kyber512:kyber768:kyber1024:kyber512
+* __Location:__ The section "location" alognside "/" it must be specified the address where Nginx shall handle requests, in other words, any regular expression that matches the specified expression will be processed by nginx. That request will be resended to the direction and ports specified into __proxy_pas__. That proxy pass will be made based on SSL/TLS traditional protocol, whose keys are specified as the parameters __proxy_ssl_certificate__ y __proxy_ssl_certificate_key__. 
 
 ### 4. PQC key generator script (Ubuntu)
 As mentioned previously, two types of keys shall be generated: PQC keysto authenticate quantum-safe HTTPS communication with the outside, and traditional keys to authenticate the communication with the final server.
