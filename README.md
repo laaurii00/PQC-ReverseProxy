@@ -1,8 +1,22 @@
+Copyright 2025 Telefónica Innovación Digital (laura.dominguez.cespedes@telefonica.com)
+ 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+http://www.apache.org/licenses/LICENSE-2.0
+ 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied. See the License for the specific language governing
+permissions and limitations under the License.
+
 # PQC-Reverse Proxy
 
-Reverse Proxy implementation with Quamtum-Safe TLS gateway.
+Reverse Proxy implementation with Quamtum-Safe TLS gateway. This repository describe the implementation to perform the configuration of a reverse proxy, allows nginx to negotiate quantum-safe keys and use quantum-safe authentication using TLS 1.3.
 
-## Contexto
+## Context
 The Open Quantum Safe (OQS) organization has made a version of the open source web server, Nginx, which allows key negotiation and quantum-safe authentication through TLS 1.3.
 This nginx image supports the quantum security key exchange algorithms, with date 28/02/2025:
 
@@ -109,11 +123,11 @@ It is recommended the key generation via command line "openssl", as an example:
 ### 6. Communication establishment (Ubuntu)
 It should be noted that the self-signing certificate implemented for the generation of PQC keys in the reverse proxy, must be available in the virtual machine that will work as a client.
 
-In turn, as mentioned, in order to be able to configure and work persistently with the specifications defined in the "nginx.cnf" file, volumes must be established. When the container is started openquantumsafe/nginx and openquantumsafe/curl with the link __-v__ /ruta/en/host:/ruta/en/contenedor, allows to create the specific directory of the host inside the container.
+In turn, as mentioned, in order to be able to configure and work persistently with the specifications defined in the "nginx.cnf" file, volumes must be established. When the container is started openquantumsafe/nginx and openquantumsafe/curl with the link __-v__ /host/root:/container/root, allows to create the specific directory of the host inside the container.
 
 Docker's container started commands:
 
-#### Proxy Inverso
+#### Proxy
     docker run -p <Puerto de Escucha>:<Puerto de Escucha> -v "/ruta/en/host/nginx-conf:/opt/nginx/nginx-conf" -v "/ruta/en/host/server-pki:/opt/nginx/pki" openquantumsafe/nginx
 
 #### Client
